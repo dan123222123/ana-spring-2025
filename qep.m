@@ -22,9 +22,13 @@ cim.setComputationalMode(Numerics.ComputationalMode.Hankel);
 % cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,2);
 % cim.SampleData.Contour.N = 128;
 
+% cim.SampleData.ell = 2; cim.SampleData.r = 2;
+% cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,8);
+% cim.SampleData.Contour.N = 128;
+
 cim.SampleData.ell = 2; cim.SampleData.r = 2;
 cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,8);
-cim.SampleData.Contour.N = 128;
+cim.SampleData.Contour.N = 512;
 
 ew = cim.eigs(); ERA_err = gmatch([-1;1;1;1],ew);
 
