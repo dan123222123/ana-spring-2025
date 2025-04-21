@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>quadrature_data</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-04-19">
+<meta name="DC.source" content="quadrature_data.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Setup Sigma</a>
+</li>
+<li>
+<a href="#2">Quadrature Data, MIMO Case</a>
+</li>
+<li>
+<a href="#3">Size of Data Matrix &amp; extract quadrature/samples from the Contour/SampleData</a>
+</li>
+<li>
+<a href="#4">ERA with Quadrature Data</a>
+</li>
+<li>
+<a href="#5">ERA vs SPLoewner Heatmap on 8 Quadrature Nodes</a>
+</li>
+<li>
+<a href="#6">plot</a>
+</li>
+<li>
+<a href="#7">Refining Quadrature Data</a>
+</li>
+<li>
+<a href="#9">ERA vs SPLoewner Heatmap on refined Quadrature Nodes</a>
+</li>
+<li>
+<a href="#10">plot</a>
+</li>
+<li>
+<a href="#11">singular value decay of ERA and SPLoewner Db</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Setup Sigma</h2>
+<pre class="codeinput">n = 6; refew = -n:-1;
+A = diag(refew); B = ones(n,2); C = ones(n,2)';
+<span class="comment">%</span>
+H = @(z) C*((z*eye(size(A)) - A) \ B);
+</pre>
+<h2 id="2">Quadrature Data, MIMO Case</h2>
+<pre class="codeinput">import <span class="string">Visual.*</span>; <span class="comment">% allows us to skip subsequent "Visual."s</span>
+
+<span class="comment">% say we take an ellipse about our spectrum</span>
+<span class="comment">% to do this, we specify the center, horizontal/vertical semiradii, and the</span>
+<span class="comment">% number of quadrature nodes for our contour.</span>
+c = Contour.Ellipse(-(n+1)/2,n/2,n/4,8); c.plot_quadrature = true;
+<span class="comment">% specify our operator of interest</span>
+o = OperatorData(H);
+<span class="comment">% along with its poles and sampling mode</span>
+o.refew = diag(A); o.sample_mode = <span class="string">"Direct"</span>;
+
+<span class="comment">% with the operator and sampling data set, we can initialize our sampling</span>
+<span class="comment">% data structure, and assign a plotting axis associated to the operator</span>
+<span class="comment">% reference poles and contour.</span>
+s = SampleData(o,c); s.ax = gca;
+
+<span class="comment">% when sampling quadrature, we can sketch to reduce the size of our data</span>
+s.ell = 1; s.r = 1; <span class="comment">% sketch evaluations of our operator to the SISO case</span>
+s.compute(); <span class="comment">% compute left/right/two-sided quadrature evaluations, note that this can be done in parallel</span>
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_01.png" alt=""> <h2 id="3">Size of Data Matrix &amp; extract quadrature/samples from the Contour/SampleData</h2>
+<pre class="codeinput">K = n;
+z = c.z; w = c.w; <span class="comment">% quadrature nodes and weights</span>
+Ql = s.Ql; Qr = s.Qr; Qlr = s.Qlr; <span class="comment">% extract the probed quadrature evaluations</span>
+</pre>
+<h2 id="4">ERA with Quadrature Data</h2>
+<pre class="codeinput">figure(1);
+sigma = Inf; <span class="comment">% interpolation point</span>
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A));
+hold <span class="string">on</span>; eraew1 = scatter(real(ew),imag(ew),<span class="string">"red"</span>,<span class="string">"filled"</span>); hold <span class="string">off</span>;
+norm(ew-diag(A))
+</pre>
+<pre class="codeoutput">
+ans =
+
+    4.2973
+
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_02.png" alt=""> <h2 id="5">ERA vs SPLoewner Heatmap on 8 Quadrature Nodes</h2>
+<pre class="codeinput">N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+<span class="keyword">parfor</span> i=1:N
+    <span class="keyword">for</span> j=1:N
+        sigma = G(i,j);
+        [Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<h2 id="6">plot</h2>
+<pre class="codeinput">figure(2);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+<span class="comment">% make better labels</span>
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = <span class="string">" "</span>; CustomYLabels(mod(y,0.5) ~= 0) = <span class="string">" "</span>;
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,<span class="string">'xlabel'</span>),<span class="string">'rotation'</span>,90)
+grid <span class="string">off</span>;
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_03.png" alt=""> <h2 id="7">Refining Quadrature Data</h2>
+<pre class="codeinput">c.N = 256; s.compute();
+z = c.z; w = c.w; Ql = s.Ql; Qr = s.Qr; Qlr = s.Qlr;
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_04.png" alt=""> <img vspace="5" hspace="5" src="quadrature_data_05.png" alt=""> <pre class="codeinput">figure(1);
+<span class="comment">%</span>
+sigma = Inf; <span class="comment">% interpolation point</span>
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A))
+<span class="keyword">if</span> exist(<span class="string">'eraew2'</span>,<span class="string">'var'</span>) == 1; delete(eraew2); <span class="keyword">end</span>;
+hold <span class="string">on</span>; eraew2 = scatter(real(ew),imag(ew),<span class="string">"blue"</span>,<span class="string">"filled"</span>); hold <span class="string">off</span>;
+</pre>
+<pre class="codeoutput">
+ERA_err =
+
+   5.1956e-07
+
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_06.png" alt=""> <img vspace="5" hspace="5" src="quadrature_data_07.png" alt=""> <h2 id="9">ERA vs SPLoewner Heatmap on refined Quadrature Nodes</h2>
+<pre class="codeinput">N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+<span class="keyword">parfor</span> i=1:N
+    <span class="keyword">for</span> j=1:N
+        sigma = G(i,j);
+        [Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<h2 id="10">plot</h2>
+<pre class="codeinput">figure(3);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+<span class="comment">% make better labels</span>
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = <span class="string">" "</span>; CustomYLabels(mod(y,0.5) ~= 0) = <span class="string">" "</span>;
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,<span class="string">'xlabel'</span>),<span class="string">'rotation'</span>,90)
+grid <span class="string">off</span>;
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_08.png" alt=""> <h2 id="11">singular value decay of ERA and SPLoewner Db</h2>
+<pre class="codeinput">figure(4); tiledlayout(1,2); nexttile;
+sigma = Inf;
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale(<span class="string">"log"</span>); xlim([1,n]);
+title(<span class="string">"sigma = Inf"</span>);
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],<span class="string">"all"</span>); sigma = G(bsidx);
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale(<span class="string">"log"</span>); xlim([1,n]);
+title(sprintf(<span class="string">"sigma = %.2f+%.2fim"</span>,real(sigma),imag(sigma)));
+<span class="comment">%</span>
+fprintf(<span class="string">"ERA Error: %e vs Best SPLoewner Error %e\n"</span>,ERA_err,SPLoewner_err(bsidx))
+</pre>
+<pre class="codeoutput">ERA Error: 5.195619e-07 vs Best SPLoewner Error 3.228814e-10
+</pre>
+<img vspace="5" hspace="5" src="quadrature_data_09.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Setup Sigma
+n = 6; refew = -n:-1;
+A = diag(refew); B = ones(n,2); C = ones(n,2)';
+%
+H = @(z) C*((z*eye(size(A)) - A) \ B);
+
+%% Quadrature Data, MIMO Case
+import Visual.*; % allows us to skip subsequent "Visual."s
+
+% say we take an ellipse about our spectrum
+% to do this, we specify the center, horizontal/vertical semiradii, and the
+% number of quadrature nodes for our contour.
+c = Contour.Ellipse(-(n+1)/2,n/2,n/4,8); c.plot_quadrature = true;
+% specify our operator of interest
+o = OperatorData(H);
+% along with its poles and sampling mode
+o.refew = diag(A); o.sample_mode = "Direct";
+
+% with the operator and sampling data set, we can initialize our sampling
+% data structure, and assign a plotting axis associated to the operator
+% reference poles and contour.
+s = SampleData(o,c); s.ax = gca;
+
+% when sampling quadrature, we can sketch to reduce the size of our data
+s.ell = 1; s.r = 1; % sketch evaluations of our operator to the SISO case
+s.compute(); % compute left/right/two-sided quadrature evaluations, note that this can be done in parallel
+
+%% Size of Data Matrix & extract quadrature/samples from the Contour/SampleData
+K = n;
+z = c.z; w = c.w; % quadrature nodes and weights
+Ql = s.Ql; Qr = s.Qr; Qlr = s.Qlr; % extract the probed quadrature evaluations
+
+%% ERA with Quadrature Data
+figure(1);
+sigma = Inf; % interpolation point
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A));
+hold on; eraew1 = scatter(real(ew),imag(ew),"red","filled"); hold off;
+norm(ew-diag(A))
+
+%% ERA vs SPLoewner Heatmap on 8 Quadrature Nodes
+N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+parfor i=1:N
+    for j=1:N
+        sigma = G(i,j);
+        [Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    end
+end
+%% plot
+figure(2);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+% make better labels
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = " "; CustomYLabels(mod(y,0.5) ~= 0) = " ";
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,'xlabel'),'rotation',90)
+grid off;
+
+%% Refining Quadrature Data
+c.N = 256; s.compute();
+z = c.z; w = c.w; Ql = s.Ql; Qr = s.Qr; Qlr = s.Qlr;
+
+%% 
+figure(1);
+%
+sigma = Inf; % interpolation point
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A))
+if exist('eraew2','var') == 1; delete(eraew2); end;
+hold on; eraew2 = scatter(real(ew),imag(ew),"blue","filled"); hold off;
+
+%% ERA vs SPLoewner Heatmap on refined Quadrature Nodes
+N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+parfor i=1:N
+    for j=1:N
+        sigma = G(i,j);
+        [Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    end
+end
+%% plot
+figure(3);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+% make better labels
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = " "; CustomYLabels(mod(y,0.5) ~= 0) = " ";
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,'xlabel'),'rotation',90)
+grid off;
+
+%% singular value decay of ERA and SPLoewner Db
+figure(4); tiledlayout(1,2); nexttile;
+sigma = Inf;
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale("log"); xlim([1,n]);
+title("sigma = Inf");
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],"all"); sigma = G(bsidx);
+[Ml,Mr,Mlr] = Numerics.sploewner.build_quadrature_moments(sigma,z,w,Ql,Qr,Qlr,K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,Ml,Mr,Mlr,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale("log"); xlim([1,n]);
+title(sprintf("sigma = %.2f+%.2fim",real(sigma),imag(sigma)));
+%
+fprintf("ERA Error: %e vs Best SPLoewner Error %e\n",ERA_err,SPLoewner_err(bsidx))
+##### SOURCE END #####
+-->
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>exact_data</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-04-19">
+<meta name="DC.source" content="exact_data.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Setup Sigma</a>
+</li>
+<li>
+<a href="#2">Set Data Matrix Sizes</a>
+</li>
+<li>
+<a href="#3">ERA</a>
+</li>
+<li>
+<a href="#4">SPLoewner -- finite shift/generalized moments</a>
+</li>
+<li>
+<a href="#5">realize system on a grid of shifts &amp;</a>
+</li>
+<li>
+<a href="#6">Plot Heatmap of the Ratio between ERA and SPLoewner</a>
+</li>
+<li>
+<a href="#7">singular value decay of ERA and SPLoewner Db</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Setup Sigma</h2>
+<pre class="codeinput">n = 6; refew = -n:-1;
+A = diag(refew); B = (1:n)'; C = 1:n;
+figure(1); scatter(real(refew),imag(refew)); grid;
+</pre>
+<img vspace="5" hspace="5" src="exact_data_01.png" alt=""> <h2 id="2">Set Data Matrix Sizes</h2>
+<pre class="codeinput">K = n; <span class="comment">% half of the number of moments to use in data matrix construction</span>
+</pre>
+<h2 id="3">ERA</h2>
+<pre class="codeinput">sigma = Inf; <span class="comment">% interpolation point</span>
+<span class="comment">% construct first 2*K unprobed Markov Parameters</span>
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+<span class="comment">% build base and shifted data matrices</span>
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+<span class="comment">% check eigenvalues of (regular) pencil (Ds,Db) vs eigenvalues of A</span>
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A))
+</pre>
+<pre class="codeoutput">
+ERA_err =
+
+   5.8359e-10
+
+</pre>
+<h2 id="4">SPLoewner -- finite shift/generalized moments</h2>
+<pre class="codeinput">sigma = 1+1i;
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+norm(eig(Ds,Db)-diag(A))
+</pre>
+<pre class="codeoutput">
+ans =
+
+   1.0300e-04
+
+</pre>
+<h2 id="5">realize system on a grid of shifts &amp;</h2>
+<pre class="codeinput">N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+<span class="keyword">parfor</span> i=1:N
+    <span class="keyword">for</span> j=1:N
+        sigma = G(i,j);
+        M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<h2 id="6">Plot Heatmap of the Ratio between ERA and SPLoewner</h2>
+<pre class="codeinput">figure(1);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+<span class="comment">% make better labels</span>
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = <span class="string">" "</span>; CustomYLabels(mod(y,0.5) ~= 0) = <span class="string">" "</span>;
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,<span class="string">'xlabel'</span>),<span class="string">'rotation'</span>,90)
+grid <span class="string">off</span>;
+</pre>
+<img vspace="5" hspace="5" src="exact_data_02.png" alt=""> <h2 id="7">singular value decay of ERA and SPLoewner Db</h2>
+<pre class="codeinput">figure(2); tiledlayout(1,2); nexttile;
+sigma = Inf;
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale(<span class="string">"log"</span>); xlim([1,n]);
+title(<span class="string">"sigma = Inf"</span>);
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],<span class="string">"all"</span>); sigma = G(bsidx);
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale(<span class="string">"log"</span>); xlim([1,n]);
+title(sprintf(<span class="string">"sigma = %.2f+%.2fim"</span>,real(sigma),imag(sigma)));
+<span class="comment">%</span>
+fprintf(<span class="string">"ERA Error: %e vs Best SPLoewner Error %e\n"</span>,ERA_err,SPLoewner_err(bsidx))
+</pre>
+<pre class="codeoutput">ERA Error: 5.835880e-10 vs Best SPLoewner Error 4.062243e-12
+</pre>
+<img vspace="5" hspace="5" src="exact_data_03.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Setup Sigma
+n = 6; refew = -n:-1;
+A = diag(refew); B = (1:n)'; C = 1:n;
+figure(1); scatter(real(refew),imag(refew)); grid;
+
+%% Set Data Matrix Sizes
+K = n; % half of the number of moments to use in data matrix construction
+
+%% ERA
+sigma = Inf; % interpolation point
+% construct first 2*K unprobed Markov Parameters
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+% build base and shifted data matrices
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+% check eigenvalues of (regular) pencil (Ds,Db) vs eigenvalues of A
+ew = realize_inorder(Db,Ds); ERA_err = norm(ew-diag(A))
+
+%% SPLoewner REPLACE_WITH_DASH_DASH finite shift/generalized moments
+sigma = 1+1i;
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+norm(eig(Ds,Db)-diag(A))
+
+%% realize system on a grid of shifts &
+N = 321; x = linspace(-10,5,N); y = linspace(-7.5,7.5,N); [X,Y] = meshgrid(x,y); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+parfor i=1:N
+    for j=1:N
+        sigma = G(i,j);
+        M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+        [Db,Ds] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+        ew = realize_inorder(Db,Ds); SPLoewner_err(i,j) = norm(ew-diag(A));
+    end
+end
+
+%% Plot Heatmap of the Ratio between ERA and SPLoewner
+figure(1);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,y,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+% make better labels
+CustomXLabels = string(x); CustomYLabels = string(flip(y));
+CustomXLabels(mod(x,1) ~= 0) = " "; CustomYLabels(mod(y,0.5) ~= 0) = " ";
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,'xlabel'),'rotation',90)
+grid off;
+
+%% singular value decay of ERA and SPLoewner Db
+figure(2); tiledlayout(1,2); nexttile;
+sigma = Inf;
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale("log"); xlim([1,n]);
+title("sigma = Inf");
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],"all"); sigma = G(bsidx);
+M = Numerics.sploewner.build_exact_moments(sigma,A,B,C,2*K);
+[Db,~] = Numerics.sploewner.build_sploewner(sigma,M,M,M,K);
+Sigma = svd(Db); Sigma = Sigma / Sigma(1);
+plot(1:n,Sigma); yscale("log"); xlim([1,n]);
+title(sprintf("sigma = %.2f+%.2fim",real(sigma),imag(sigma)));
+%
+fprintf("ERA Error: %e vs Best SPLoewner Error %e\n",ERA_err,SPLoewner_err(bsidx))
+##### SOURCE END #####
+-->
+</body>
+</html>

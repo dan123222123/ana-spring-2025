@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>qep</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-04-20">
+<meta name="DC.source" content="qep.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#3">ERA vs SPLoewner Heatmap</a>
+</li>
+<li>
+<a href="#4">plot</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">import <span class="string">Visual.*</span>;
+
+<span class="comment">% From Tisseur&amp;Meerbergen 2001, section 3.6</span>
+
+M = [1 0 0;0 1 0;0 0 0];
+C = [-2 0 1;0 0 0;0 0 0];
+K = [1 0 0;0 -1 0;0 0 1];
+T = @(z) z.^2*M + z.*C + K;
+
+n = OperatorData(T,<span class="string">'qep_3.6'</span>);
+c = Contour.Ellipse(0,2,0.5);
+cim = CIM(n,c);
+
+cim.SampleData.OperatorData.refew = [-1;1;1;1;Inf;Inf];
+
+cimtool = CIMTOOL(cim);
+</pre>
+<img vspace="5" hspace="5" src="qep_01.png" alt=""> <pre class="codeinput">cim.setComputationalMode(Numerics.ComputationalMode.Hankel);
+
+<span class="comment">% cim.SampleData.ell = 2; cim.SampleData.r = 2;</span>
+<span class="comment">% cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,2);</span>
+<span class="comment">% cim.SampleData.Contour.N = 128;</span>
+
+cim.SampleData.ell = 2; cim.SampleData.r = 2;
+cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,8);
+cim.SampleData.Contour.N = 128;
+
+ew = cim.eigs(); ERA_err = gmatch([-1;1;1;1],ew);
+</pre>
+<img vspace="5" hspace="5" src="qep_02.png" alt=""> <h2 id="3">ERA vs SPLoewner Heatmap</h2>
+<pre class="codeinput">cim.setComputationalMode(Numerics.ComputationalMode.SPLoewner); cim.eigs;
+N = 201; x = linspace(-5,5,N); [X,Y] = meshgrid(x,x); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+<span class="keyword">parfor</span> i=1:N
+    ccim = copy(cim); ccim.ax = [];
+    <span class="keyword">for</span> j=1:N
+        sigma = G(i,j);
+        ccim.RealizationData.InterpolationData = Numerics.InterpolationData([],sigma);
+        <span class="keyword">try</span>
+            ew = ccim.eigs; SPLoewner_err(i,j) = gmatch([-1;1;1;1],ew);
+        <span class="keyword">catch</span> e
+            SPLoewner_err(i,j) = NaN;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<img vspace="5" hspace="5" src="qep_03.png" alt=""> <h2 id="4">plot</h2>
+<pre class="codeinput">figure(2);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,x,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+h.YDisplayData=flip(h.YDisplayData);
+<span class="comment">% make better labels</span>
+CustomXLabels = string(x); CustomYLabels = string(flip(x));
+CustomXLabels(mod(x,1) ~= 0) = <span class="string">" "</span>; CustomYLabels(mod(x,1) ~= 0) = <span class="string">" "</span>;
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,<span class="string">'xlabel'</span>),<span class="string">'rotation'</span>,90)
+grid <span class="string">off</span>;
+</pre>
+<img vspace="5" hspace="5" src="qep_04.png" alt=""> <pre class="codeinput">figure(3); tiledlayout(1,2); nexttile;
+cim.setComputationalMode(Numerics.ComputationalMode.Hankel);
+cim.eigs; Sigma = diag(cim.ResultData.Sigma); Sigma = Sigma / Sigma(1);
+plot(1:length(Sigma),Sigma); yscale(<span class="string">"log"</span>); xlim([1,length(Sigma)]);
+title(<span class="string">"sigma = Inf"</span>);
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],<span class="string">"all"</span>); sigma = G(bsidx);
+cim.setComputationalMode(Numerics.ComputationalMode.SPLoewner);
+cim.RealizationData.InterpolationData = Numerics.InterpolationData([],sigma);
+cim.eigs; Sigma = diag(cim.ResultData.Sigma); Sigma = Sigma / Sigma(1);
+plot(1:length(Sigma),Sigma); yscale(<span class="string">"log"</span>); xlim([1,length(Sigma)]);
+title(sprintf(<span class="string">"sigma = %.2f+%.2fim"</span>,real(sigma),imag(sigma)));
+<span class="comment">%</span>
+fprintf(<span class="string">"ERA Error: %e vs Best SPLoewner Error %e\n"</span>,ERA_err,SPLoewner_err(bsidx))
+</pre>
+<pre class="codeoutput">ERA Error: 1.437690e-07 vs Best SPLoewner Error 7.784395e-09
+</pre>
+<img vspace="5" hspace="5" src="qep_05.png" alt=""> <img vspace="5" hspace="5" src="qep_06.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+import Visual.*;
+
+% From Tisseur&Meerbergen 2001, section 3.6
+
+M = [1 0 0;0 1 0;0 0 0];
+C = [-2 0 1;0 0 0;0 0 0];
+K = [1 0 0;0 -1 0;0 0 1];
+T = @(z) z.^2*M + z.*C + K;
+
+n = OperatorData(T,'qep_3.6');
+c = Contour.Ellipse(0,2,0.5);
+cim = CIM(n,c);
+
+cim.SampleData.OperatorData.refew = [-1;1;1;1;Inf;Inf];
+
+cimtool = CIMTOOL(cim);
+
+%%
+cim.setComputationalMode(Numerics.ComputationalMode.Hankel);
+
+% cim.SampleData.ell = 2; cim.SampleData.r = 2;
+% cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,2);
+% cim.SampleData.Contour.N = 128;
+
+cim.SampleData.ell = 2; cim.SampleData.r = 2;
+cim.RealizationData.RealizationSize = Numerics.RealizationSize(4,8);
+cim.SampleData.Contour.N = 128;
+
+ew = cim.eigs(); ERA_err = gmatch([-1;1;1;1],ew);
+
+%% ERA vs SPLoewner Heatmap
+cim.setComputationalMode(Numerics.ComputationalMode.SPLoewner); cim.eigs;
+N = 201; x = linspace(-5,5,N); [X,Y] = meshgrid(x,x); G = X + 1i*Y;
+SPLoewner_err = zeros(N,N);
+parfor i=1:N
+    ccim = copy(cim); ccim.ax = [];
+    for j=1:N
+        sigma = G(i,j);
+        ccim.RealizationData.InterpolationData = Numerics.InterpolationData([],sigma);
+        try
+            ew = ccim.eigs; SPLoewner_err(i,j) = gmatch([-1;1;1;1],ew);
+        catch e
+            SPLoewner_err(i,j) = NaN;
+        end
+    end
+end
+%% plot
+figure(2);
+ls_eravspl = log10(SPLoewner_err./ERA_err);
+h = heatmap(x,x,ls_eravspl); clim([-1 1]); colormap(redblue(5000));
+h.YDisplayData=flip(h.YDisplayData);
+% make better labels
+CustomXLabels = string(x); CustomYLabels = string(flip(x));
+CustomXLabels(mod(x,1) ~= 0) = " "; CustomYLabels(mod(x,1) ~= 0) = " ";
+h.XDisplayLabels = CustomXLabels; h.YDisplayLabels = CustomYLabels;
+set(get(gca,'xlabel'),'rotation',90)
+grid off;
+
+%%
+figure(3); tiledlayout(1,2); nexttile;
+cim.setComputationalMode(Numerics.ComputationalMode.Hankel);
+cim.eigs; Sigma = diag(cim.ResultData.Sigma); Sigma = Sigma / Sigma(1);
+plot(1:length(Sigma),Sigma); yscale("log"); xlim([1,length(Sigma)]);
+title("sigma = Inf");
+
+nexttile();
+[bsn,bsidx] = min(ls_eravspl,[],"all"); sigma = G(bsidx);
+cim.setComputationalMode(Numerics.ComputationalMode.SPLoewner);
+cim.RealizationData.InterpolationData = Numerics.InterpolationData([],sigma);
+cim.eigs; Sigma = diag(cim.ResultData.Sigma); Sigma = Sigma / Sigma(1);
+plot(1:length(Sigma),Sigma); yscale("log"); xlim([1,length(Sigma)]);
+title(sprintf("sigma = %.2f+%.2fim",real(sigma),imag(sigma)));
+%
+fprintf("ERA Error: %e vs Best SPLoewner Error %e\n",ERA_err,SPLoewner_err(bsidx))
+##### SOURCE END #####
+-->
+</body>
+</html>
